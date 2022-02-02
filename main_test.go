@@ -1,4 +1,4 @@
-package smsutility
+package smsutils
 
 import (
 	"testing"

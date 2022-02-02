@@ -1,4 +1,4 @@
-module github.com/solami-limited/sms-utility
+module github.com/solami-limited/sms-utils 
 
 go 1.17
 
