@@ -52,9 +52,18 @@ func TestReplySMS(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "sad: invalid linkID",
+			name: "happy: sent message",
 			args: args{
 				phoneNumber: "0708113456",
+				message:     "hello test",
+				linkID:      "123",
+			},
+			wantErr: false,
+		},
+		{
+			name: "sad: invalid phone number",
+			args: args{
+				phoneNumber: "070811",
 				message:     "hello test",
 				linkID:      "123",
 			},
