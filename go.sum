@@ -1,0 +1,4 @@
+github.com/dongri/phonenumber v0.0.0-20220127125919-1e58a2b4cf97 h1:ADfzF979PVc2TasBY6aqeOpM5nj3PNQEybBbKuVcpDI=
+github.com/dongri/phonenumber v0.0.0-20220127125919-1e58a2b4cf97/go.mod h1:G6eIK4UOT7iAcInROB6it2kRqlpR1U1GD2gqR9U5bGs=
+github.com/ochom/go-http v0.0.7 h1:ts6ehD/XFIgEIxONCvn1KYyIUveKdJv/aAWSS85pimg=
+github.com/ochom/go-http v0.0.7/go.mod h1:hc2o1Y4gGZqG6tONlYOVI2gUpDv8w13qfCyNqCcmues=
