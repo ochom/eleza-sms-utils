@@ -1,4 +1,4 @@
-module github.com/solami-limited/sms-utils 
+module github.com/ochom/eleza-sms-utils 
 
 go 1.17
 
