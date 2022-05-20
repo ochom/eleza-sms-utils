@@ -6,17 +6,30 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/dongri/phonenumber"
 	gohttp "github.com/ochom/go-http"
 )
 
-var token = os.Getenv("ELEZA_SMS_TOKEN")
-
 //SendSMS send sms to "http://api.eleza.online/v1/sms/send/"
+//Must define ELEZA_SMS_TOKEN, ELEZA_OFFER_CODE and ELEZA_PRODUCT_ID in environment file
 func SendSMS(phoneNumber, message string) error {
+	token, err := getEnv("ELEZA_SMS_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	offerCode, err := getEnv("ELEZA_OFFER_CODE")
+	if err != nil {
+		return err
+	}
+
+	productID, err := getEnv("ELEZA_PRODUCT_ID")
+	if err != nil {
+		return err
+	}
+
 	ctx := context.Background()
 	httpClient := gohttp.NewHTTPService(time.Second * 30)
 
@@ -28,8 +41,8 @@ func SendSMS(phoneNumber, message string) error {
 	data := map[string]string{
 		"msisdn":      phonenumber.Parse(phoneNumber, "KE"),
 		"sms":         message,
-		"productID":   "KWIKBET",
-		"offercode":   "001003802278",
+		"productID":   productID,
+		"offercode":   offerCode,
 		"callBackUrl": "https://betsms.kwikbet.io/api/v1/sms/delivery/save",
 	}
 
@@ -53,7 +66,19 @@ func SendSMS(phoneNumber, message string) error {
 }
 
 //ReplySMS replies an sms with LinkID sms to "http://api.eleza.online/v1/sms/reply/"
+//Must define ELEZA_SMS_TOKEN and ELEZA_OFFER_CODE in environment file
 func ReplySMS(phoneNumber, message, linkID string) error {
+
+	token, err := getEnv("ELEZA_SMS_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	offerCode, err := getEnv("ELEZA_OFFER_CODE")
+	if err != nil {
+		return err
+	}
+
 	ctx := context.Background()
 	httpClient := gohttp.NewHTTPService(time.Second * 30)
 
@@ -65,7 +90,7 @@ func ReplySMS(phoneNumber, message, linkID string) error {
 	data := map[string]string{
 		"msisdn":    phonenumber.Parse(phoneNumber, "KE"),
 		"sms":       message,
-		"offercode": "001003802278",
+		"offercode": offerCode,
 		"linkID":    linkID,
 	}
 
