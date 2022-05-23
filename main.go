@@ -1,15 +1,18 @@
 package smsutils
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/dongri/phonenumber"
 	gohttp "github.com/ochom/go-http"
+)
+
+var (
+	sendURL  = "http://api.eleza.online/v1/sms/send/"
+	replyURL = "http://api.eleza.online/v1/sms/reply/"
 )
 
 //SendSMS send sms to "http://api.eleza.online/v1/sms/send/"
@@ -31,7 +34,7 @@ func SendSMS(phoneNumber, message string) error {
 	}
 
 	ctx := context.Background()
-	httpClient := gohttp.NewHTTPService(time.Second * 30)
+	httpClient := gohttp.New(time.Second * 30)
 
 	headers := map[string]string{
 		"Content-Type": "application/json",
@@ -51,14 +54,7 @@ func SendSMS(phoneNumber, message string) error {
 		return fmt.Errorf("json marshal err: %v", err)
 	}
 
-	payload := gohttp.RequestPayload{
-		URL:     "http://api.eleza.online/v1/sms/send/",
-		Method:  http.MethodPost,
-		Headers: headers,
-		Body:    bytes.NewBuffer(body),
-	}
-
-	if _, err := httpClient.MakeRequest(ctx, payload); err != nil {
+	if _, _, err := httpClient.Post(ctx, sendURL, headers, body); err != nil {
 		return err
 	}
 
@@ -80,7 +76,7 @@ func ReplySMS(phoneNumber, message, linkID string) error {
 	}
 
 	ctx := context.Background()
-	httpClient := gohttp.NewHTTPService(time.Second * 30)
+	httpClient := gohttp.New(time.Second * 30)
 
 	headers := map[string]string{
 		"Content-Type": "application/json",
@@ -99,14 +95,7 @@ func ReplySMS(phoneNumber, message, linkID string) error {
 		return fmt.Errorf("json marshal err: %v", err)
 	}
 
-	payload := gohttp.RequestPayload{
-		URL:     "http://api.eleza.online/v1/sms/reply/",
-		Method:  http.MethodPost,
-		Headers: headers,
-		Body:    bytes.NewBuffer(body),
-	}
-
-	if _, err := httpClient.MakeRequest(ctx, payload); err != nil {
+	if _, _, err := httpClient.Post(ctx, replyURL, headers, body); err != nil {
 		return err
 	}
 
